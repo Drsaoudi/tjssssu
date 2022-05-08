@@ -1,1 +1,45 @@
+name: Tests
 
+on:
+
+  push:
+
+    branches: [master]
+
+jobs:
+
+  deploy-test-1:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - run: npm run setup package.json
+
+      - run: |
+
+          git config --global user.email "mohamed@saoudi.tk"
+
+          git config --global user.name "saoudimo"
+
+          git add -A
+
+          git commit -m "Added data.json"
+
+      - uses: akhileshns/heroku-deploy@master
+
+        with:
+
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+
+          heroku_app_name: "smohamed"
+
+          heroku_email: "mohamed@saoudi.tk"
+
+         
+
+          healthcheck: "https://smohamed.herokuapp.com/"
+
+         
